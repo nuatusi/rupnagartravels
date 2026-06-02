@@ -1,0 +1,26 @@
+# robots.txt for www.appsacademia.com
+# Generated for Apps Academia — Dhaka, Bangladesh
+
+# Allow all search engine robots to crawl the public site
+User-agent: *
+Allow: /
+
+# Block admin panel from being indexed (protect privacy)
+Disallow: /admin/
+Disallow: /admin
+
+# Block any API routes from being indexed
+Disallow: /api/
+
+
+# Global rules for Google (Ignore crawl delay here)
+User-agent: Googlebot
+Disallow: /api/
+
+# Rules for Bing and other bots that support crawl delay
+User-agent: Bingbot
+User-agent: *
+Disallow: /api/
+
+# Sitemap location - Read by all bots
+Sitemap: https://www.rupnagartravels.com/sitemap.xml
