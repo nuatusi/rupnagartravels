@@ -286,7 +286,7 @@
   .packages-bg { background: var(--cream); }
   .packages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
   .pkg-card {
-    background: var(--white); border-radius: 20px; overflow: hidden;
+    background: var(--white); border-radius: 20px; overflow: visible;
     border: 1px solid var(--border); transition: all 0.3s;
     position: relative;
   }
@@ -295,13 +295,16 @@
   .pkg-card-top {
     background: var(--green); padding: 32px 28px 28px;
     position: relative; overflow: hidden;
+    border-radius: 18px 18px 0 0;
   }
   .pkg-card.featured .pkg-card-top { background: linear-gradient(135deg, #0D2A22, #2D6A4F); }
   .pkg-ribbon {
-    position: absolute; top: 16px; right: -30px;
+    position: absolute; top: 42px; right: -38px;
     background: var(--gold); color: var(--ink);
     font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
-    padding: 5px 40px; transform: rotate(45deg); text-transform: uppercase;
+    padding: 6px 48px; transform: rotate(45deg); text-transform: uppercase;
+    white-space: nowrap; z-index: 2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   }
   .pkg-icon { font-size: 40px; margin-bottom: 12px; }
   .pkg-name {
@@ -415,29 +418,88 @@
   .service-card h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
   .service-card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 
-  /* ─── GALLERY STRIP ─── */
-  .gallery-strip {
+  /* ─── SERVICE HIGHLIGHTS STRIP ─── */
+  .highlights-strip {
     background: var(--green);
-    padding: 0;
+    padding: 80px 0;
     overflow: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: relative;
   }
-  .gallery-ticker {
-    display: flex; gap: 24px; width: max-content;
-    animation: ticker 30s linear infinite;
+  .highlights-strip::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
   }
-  .gallery-ticker:hover { animation-play-state: paused; }
-  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  .gallery-thumb {
-    width: 200px; height: 140px; background: rgba(255,255,255,0.08);
-    border-radius: 12px; flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; font-size: 40px; border: 1px solid rgba(201,168,76,0.2);
-    transition: border-color 0.3s;
+  .highlights-strip::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
   }
-  .gallery-thumb:hover { border-color: var(--gold); }
+  .highlights-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .highlights-header .section-label { color: var(--gold-light); justify-content: center; }
+  .highlights-header .section-title { color: var(--white); }
+  .highlights-header .section-desc { color: rgba(255,255,255,0.65); margin: 0 auto; }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .highlight-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .highlight-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .highlight-card:hover {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.3);
+  }
+  .highlight-card:hover::before { opacity: 1; }
+  .highlight-emoji {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    transition: transform 0.3s;
+  }
+  .highlight-card:hover .highlight-emoji { transform: scale(1.12) translateY(-2px); }
+  .highlight-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .highlight-card p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+  }
+  .highlight-divider {
+    width: 32px; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    margin: 12px auto;
+    border-radius: 2px;
+  }
 
   /* ─── CONTACT ─── */
   .contact-bg { background: var(--white); }
@@ -566,6 +628,7 @@
     .process-steps { grid-template-columns: repeat(3, 1fr); gap: 32px; }
     .process-steps::before { display: none; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
+    .highlights-grid { grid-template-columns: repeat(4, 1fr); }
   }
   @media (max-width: 768px) {
     section { padding: 48px 0; min-height: 100vh; }
@@ -585,7 +648,8 @@
     .hamburger { display: flex; }
     .process-steps { grid-template-columns: repeat(2, 1fr); }
     .hero-stats { gap: 24px; }
-    .gallery-strip { padding: 48px 0; }
+    .highlights-grid { grid-template-columns: repeat(2, 1fr); }
+    .highlights-strip { padding: 56px 0; }
     .footer-grid { padding-bottom: 40px; }
   }
   @media (max-width: 480px) {
@@ -597,6 +661,7 @@
     .section-title { font-size: clamp(26px, 7vw, 40px); }
     .packages-grid { grid-template-columns: 1fr; }
     .testimonials-grid { grid-template-columns: 1fr; }
+    .highlights-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -874,8 +939,8 @@
 
       <!-- PREMIUM UMRAH (FEATURED) -->
       <div class="pkg-card featured">
+        <div class="pkg-ribbon">Most Popular</div>
         <div class="pkg-card-top">
-          <div class="pkg-ribbon">Most Popular</div>
           <div class="pkg-icon">🕋</div>
           <div class="pkg-name">Premium Umrah</div>
           <div class="pkg-type">Premium Package · 21 Days</div>
@@ -928,32 +993,68 @@
   </div>
 </section>
 
-<!-- GALLERY STRIP -->
-<div class="gallery-strip" aria-label="Destination gallery">
-  <div class="gallery-ticker">
-    <div class="gallery-thumb">🕋</div>
-    <div class="gallery-thumb">🕌</div>
-    <div class="gallery-thumb">🌙</div>
-    <div class="gallery-thumb">🛤️</div>
-    <div class="gallery-thumb">🏔️</div>
-    <div class="gallery-thumb">🌅</div>
-    <div class="gallery-thumb">🤲</div>
-    <div class="gallery-thumb">✈️</div>
-    <div class="gallery-thumb">🌍</div>
-    <div class="gallery-thumb">🏛️</div>
-    <!-- Duplicate for seamless loop -->
-    <div class="gallery-thumb">🕋</div>
-    <div class="gallery-thumb">🕌</div>
-    <div class="gallery-thumb">🌙</div>
-    <div class="gallery-thumb">🛤️</div>
-    <div class="gallery-thumb">🏔️</div>
-    <div class="gallery-thumb">🌅</div>
-    <div class="gallery-thumb">🤲</div>
-    <div class="gallery-thumb">✈️</div>
-    <div class="gallery-thumb">🌍</div>
-    <div class="gallery-thumb">🏛️</div>
+
+<!-- SERVICE HIGHLIGHTS STRIP -->
+<section class="highlights-strip" aria-label="Our Services at a Glance">
+  <div class="container">
+    <div class="highlights-header">
+      <div class="section-label" style="justify-content:center">Everything You Need</div>
+      <h2 class="section-title">Our <em>Services</em> at a Glance</h2>
+      <p class="section-desc">From sacred pilgrimage to international adventures — we handle every detail of your journey with care.</p>
+    </div>
+    <div class="highlights-grid fade-up">
+      <div class="highlight-card">
+        <span class="highlight-emoji">🕋</span>
+        <h3>Hajj & Umrah Packages</h3>
+        <div class="highlight-divider"></div>
+        <p>Affordable and premium packages tailored to your needs, guided by experienced scholars.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">✈️</span>
+        <h3>Flight Booking</h3>
+        <div class="highlight-divider"></div>
+        <p>Best airfare options with trusted airlines. Domestic, international & group bookings.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">🏨</span>
+        <h3>Hotel Accommodation</h3>
+        <div class="highlight-divider"></div>
+        <p>Comfortable stays near Haram and Masjid An-Nabawi. 3-star to 5-star options.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">🚌</span>
+        <h3>Ground Transportation</h3>
+        <div class="highlight-divider"></div>
+        <p>Reliable airport transfers, Ziyarah tours, and all local transportation in Saudi Arabia.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">🤲</span>
+        <h3>Religious Guidance</h3>
+        <div class="highlight-divider"></div>
+        <p>Experienced Islamic guides to assist and support you throughout your entire pilgrimage.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">🌍</span>
+        <h3>International Tours</h3>
+        <div class="highlight-divider"></div>
+        <p>Exciting travel packages to Turkey, Malaysia, Dubai, Thailand and popular destinations worldwide.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">📞</span>
+        <h3>24/7 Support</h3>
+        <div class="highlight-divider"></div>
+        <p>Dedicated support before, during, and after your journey — available around the clock.</p>
+      </div>
+      <div class="highlight-card">
+        <span class="highlight-emoji">⭐</span>
+        <h3>Trusted Since 2010</h3>
+        <div class="highlight-divider"></div>
+        <p>Over a decade of serving travelers with commitment, integrity and complete customer satisfaction.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
 
 <!-- PROCESS -->
 <section class="process-bg" id="process" aria-labelledby="process-title">
@@ -1013,7 +1114,7 @@
         <div class="testi-author">
           <div class="testi-avatar">MR</div>
           <div>
-            <div class="testi-name">Md. Rahman Hossain</div>
+            <div class="testi-name">Md. Abdur Rahman</div>
             <div class="testi-loc">Dhaka, Bangladesh</div>
             <div class="testi-stars">★★★★★</div>
           </div>
@@ -1114,11 +1215,11 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="fname">First Name</label>
-              <input class="form-control" type="text" id="fname" placeholder="Md. Rahman" required>
+              <input class="form-control" type="text" id="fname" placeholder="Md. Abdur" required>
             </div>
             <div class="form-group">
               <label class="form-label" for="lname">Last Name</label>
-              <input class="form-control" type="text" id="lname" placeholder="Hossain" required>
+              <input class="form-control" type="text" id="lname" placeholder="Rahman" required>
             </div>
           </div>
           <div class="form-group">
@@ -1164,7 +1265,6 @@
         <div class="footer-brand-name">Rupnagar Tours & Travels</div>
         <div class="footer-brand-sub">Hajj · Umrah · Tours & Travels</div>
         <p class="footer-desc">Your trusted partner for Hajj, Umrah and international travel. Serving the people of Bangladesh with dedication, integrity and divine blessing.</p>
-        <div class="footer-arabic">لبيك اللهم لبيك</div>
         <div class="social-links" style="margin-top:20px">
           <a href="https://www.facebook.com/rupnagartravels" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
